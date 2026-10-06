@@ -1,0 +1,11 @@
+{
+  "student_id": "24011cseai0133",
+  "assessments": [
+    {
+      "assessment_id": "AS101",
+      "subject": "Python",
+      "score": 91,
+      "grade": "A"
+    }
+  ]
+}

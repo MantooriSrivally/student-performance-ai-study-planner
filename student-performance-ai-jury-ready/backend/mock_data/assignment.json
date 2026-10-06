@@ -1,0 +1,14 @@
+{
+  "student_id": "24011cseai0133",
+  "assignments": [
+    {
+      "assignment_id": "A101",
+      "title": "Python Mini Project",
+      "subject": "Python",
+      "marks": 92,
+      "max_marks": 100,
+      "submission_status": "On Time",
+      "feedback": "Excellent implementation."
+    }
+  ]
+}

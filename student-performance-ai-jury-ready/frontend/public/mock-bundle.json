@@ -1,0 +1,123 @@
+{
+  "student.json": {
+    "student_id": "24011cseai0133",
+    "name": "Deepthi",
+    "email": "24011cseai0133@aiml.suh.edu.in",
+    "phone_number": "9876543210",
+    "department": "AIML",
+    "year": 3,
+    "semester": 5,
+    "cgpa": 8.9
+  },
+  "interview.json": {
+    "student_id": "24011cseai0133",
+    "student_name": "Deepthi",
+    "interview_date": "2026-06-28",
+    "company": "Deloitte",
+    "job_role": "Software Engineer Intern",
+    "overall_score": 8.8,
+    "questions": [
+      {
+        "question": "Tell me about yourself.",
+        "student_answer": "I am Deepthi, a third-year AIML student. I have experience in Python, FastAPI, PostgreSQL and Machine Learning.",
+        "score": 9,
+        "feedback": "Excellent communication."
+      },
+      {
+        "question": "Explain Object-Oriented Programming.",
+        "student_answer": "OOP is based on classes and objects. It consists of Encapsulation, Inheritance, Polymorphism and Abstraction.",
+        "score": 9,
+        "feedback": "Strong fundamentals."
+      },
+      {
+        "question": "Difference between List and Tuple?",
+        "student_answer": "Lists are mutable whereas tuples are immutable. Tuples consume less memory.",
+        "score": 9,
+        "feedback": "Correct answer."
+      },
+      {
+        "question": "What is FastAPI?",
+        "student_answer": "FastAPI is a Python framework used to develop high-performance REST APIs with automatic Swagger documentation.",
+        "score": 10,
+        "feedback": "Excellent explanation."
+      },
+      {
+        "question": "Explain SQL JOINs.",
+        "student_answer": "INNER JOIN and LEFT JOIN are clear to me. I need more practice with RIGHT JOIN and FULL OUTER JOIN.",
+        "score": 7,
+        "feedback": "Needs SQL practice."
+      },
+      {
+        "question": "Difference between GET and POST?",
+        "student_answer": "GET retrieves data and POST sends data to create resources.",
+        "score": 9,
+        "feedback": "Correct."
+      },
+      {
+        "question": "What is Machine Learning?",
+        "student_answer": "Machine Learning allows computers to learn patterns from data without explicit programming.",
+        "score": 9,
+        "feedback": "Very good."
+      },
+      {
+        "question": "Reverse a string in Python.",
+        "student_answer": "I used string[::-1].",
+        "score": 10,
+        "feedback": "Optimal solution."
+      }
+    ],
+    "interviewer_observation": {
+      "communication": "Excellent",
+      "confidence": "Very Good",
+      "technical_knowledge": "Very Good",
+      "coding_skills": "Good",
+      "problem_solving": "Very Good"
+    },
+    "strengths": [
+      "Strong Python knowledge",
+      "Excellent FastAPI knowledge",
+      "Good communication",
+      "Strong OOP concepts"
+    ],
+    "weaknesses": [
+      "Needs SQL improvement",
+      "Needs more DSA practice"
+    ],
+    "overall_feedback": "Deepthi performed well throughout the interview. She demonstrated strong backend knowledge and communication skills. Improving SQL and DSA will increase her chances in product-based companies."
+  },
+  "assignment.json": {
+    "student_id": "24011cseai0133",
+    "assignments": [
+      {
+        "assignment_id": "A101",
+        "title": "Python Mini Project",
+        "subject": "Python",
+        "marks": 92,
+        "max_marks": 100,
+        "submission_status": "On Time",
+        "feedback": "Excellent implementation."
+      }
+    ]
+  },
+  "assessment.json": {
+    "student_id": "24011cseai0133",
+    "assessments": [
+      {
+        "assessment_id": "AS101",
+        "subject": "Python",
+        "score": 91,
+        "grade": "A"
+      }
+    ]
+  },
+  "attendance.json": {
+    "student_id": "24011cseai0133",
+    "month": "June",
+    "working_days": 22,
+    "present_days": 21,
+    "absent_days": 1,
+    "leave_days": 0,
+    "attendance_percentage": 95.45,
+    "status": "Eligible"
+  }
+}

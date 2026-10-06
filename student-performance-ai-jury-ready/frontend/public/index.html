@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="#0b1f2d" name="theme-color"/>
+<title>Study Planner · AI Student Performance Analysis</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="/styles.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+</head>
+<body>
+<canvas aria-hidden="true" id="world3d"></canvas>
+<div class="app-shell" id="appShell">
+
+<aside class="sidebar">
+<div class="brand">
+<div aria-hidden="true" class="brand-mark">🎓</div>
+<div>
+<strong>Study Planner</strong>
+<span>AI Student Performance Analysis</span>
+</div>
+</div>
+<nav aria-label="Primary navigation">
+<button class="nav-btn active" data-target="overview"><i>▦</i>Dashboard</button>
+<button class="nav-btn" data-target="gates"><i>●</i>Student Profile</button>
+<button class="nav-btn" data-target="academics"><i>▣</i>Assignments</button>
+<button class="nav-btn" data-target="finalReport"><i>▤</i>Resume Analysis</button>
+<button class="nav-btn" data-target="interview"><i>♟</i>Mock Interview</button>
+<button class="nav-btn" data-target="gates"><i>♙</i>Assessments</button>
+<button class="nav-btn" data-target="insights"><i>▥</i>Performance Analysis</button>
+<button class="nav-btn" data-target="earlyWarning"><i>◷</i>Progress Timeline</button>
+<button class="nav-btn" data-target="study"><i>♙</i>AI Study Planner</button>
+<button class="nav-btn" data-target="finalReport"><i>▱</i>Reports</button>
+</nav>
+<div aria-hidden="true" class="sidebar-illustration">
+<div class="book-stack"><span></span><span></span><span></span></div>
+<p>“Better Students<br/>Brighter Futures”</p>
+<div class="mini-line"></div>
+</div>
+<div class="sidebar-foot">
+<strong>Study Planner</strong>
+<small>AI Student Performance Analysis   v1.0</small>
+</div>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+<div class="welcome">
+<div class="welcome-title">Welcome back!</div>
+<div class="welcome-subtitle">Here's your academic performance overview and personalized insights.</div>
+</div>
+<div class="top-actions">
+<div aria-label="Theme controls" class="theme-toggle" role="group"><button type="button" id="lightMode" aria-label="Light mode" title="Light mode">☼</button><button type="button" id="darkMode" aria-label="Dark mode" title="Dark mode">☾</button></div>
+<button aria-label="Refresh" class="top-icon" id="loadDemo" title="Refresh current student">↻</button>
+<div class="profile-chip">
+<div class="avatar">N</div>
+<div><strong id="profileName">Student</strong><small id="profileId">ID: —</small></div>
+</div>
+<div aria-label="Demo student" class="profile-switch" role="group">
+<button class="ghost profile-btn active" data-profile="strong" id="demoStrong">Strong profile</button>
+<button class="ghost profile-btn" data-profile="at-risk" id="demoAtRisk">At-risk profile</button>
+</div>
+<div class="document-actions">
+<button class="ghost" id="exportJson" title="Download validated JSON">Export JSON</button>
+<button class="ghost" id="exportMarkdown" title="Download Markdown report">Export MD</button>
+<button class="primary" id="printReport">Print final report</button>
+</div>
+</div>
+</header>
+
+<div class="audit-bar" id="auditBar">
+<span><em>Report</em> <b id="auditId">—</b></span>
+<span><em>Generated</em> <b id="auditTime">—</b></span>
+</div>
+
+<section class="dashboard-overview" id="overview">
+<div class="dashboard-hero">
+<div class="hero-welcome">
+<div class="greeting">👋 <span>Good Evening,</span></div>
+<h2 id="studentName">Loading student…</h2>
+<p id="headline">“Consistent progress leads to remarkable results.”</p>
+<div class="student-meta" id="studentMeta"></div>
+</div>
+<div aria-hidden="true" class="hero-campus">
+<div class="cloud cloud-a"></div><div class="cloud cloud-b"></div>
+<div class="campus-building"><div class="roof"></div><div class="dome"></div><div class="columns"></div></div>
+<div class="tree t1"></div><div class="tree t2"></div><div class="tree t3"></div><div class="tree t4"></div>
+</div>
+<div class="semester-card">
+<div class="semester-icon">▣</div>
+<div><small>Current Semester</small><strong id="semesterValue">—</strong><span id="dateValue">—</span></div>
+</div>
+</div>
+<div class="kpi-grid">
+<article class="kpi-card kpi-green"><div class="kpi-icon">◉</div><div><span>Overall Performance</span><strong id="kpiOverall">—</strong><small id="kpiOverallDelta">Live from report</small></div></article>
+<article class="kpi-card kpi-blue"><div class="kpi-icon">▤</div><div><span>Assignment Score</span><strong id="kpiAssignment">—</strong><small>From submitted assignments</small></div></article>
+<article class="kpi-card kpi-orange"><div class="kpi-icon">▥</div><div><span>Assessment Score</span><strong id="kpiAssessment">—</strong><small>From assessments</small></div></article>
+<article class="kpi-card kpi-purple"><div class="kpi-icon">♟</div><div><span>Mock Interview Score</span><strong id="kpiMock">—</strong><small>Panel interview performance</small></div></article>
+<article class="kpi-card kpi-red"><div class="kpi-icon">▤</div><div><span>Placement Readiness</span><strong id="kpiResume">—</strong><small id="kpiResumeSub">Confidence</small></div></article>
+</div>
+<div class="dashboard-grid main-widgets">
+<article class="template-card trend-card">
+<div class="card-head"><div><h3>Performance Trend</h3><p>Real report metrics across the available academic evidence</p></div><span class="range-pill">Current report</span></div>
+<div class="chart-wrap large"><canvas id="templateTrendChart"></canvas></div>
+</article>
+<article class="template-card skill-card">
+<div class="card-head"><div><h3>Skill-wise Performance</h3><p>Dimension scores from the existing report</p></div><span class="legend-inline"><i></i>Your Score <b></b>Average</span></div>
+<div class="chart-wrap radar"><canvas id="templateSkillChart"></canvas></div>
+</article>
+<article class="template-card readiness-card">
+<div class="card-head"><h3>Placement Readiness</h3></div>
+<div class="readiness-content">
+<div class="readiness-donut"><svg viewbox="0 0 160 160"><circle class="donut-track" cx="80" cy="80" r="60"></circle><circle class="donut-progress" cx="80" cy="80" id="templateReadinessRing" r="60"></circle></svg><div><strong id="templateReadiness">—</strong><span>Ready</span></div></div>
+<div class="readiness-list">
+<div><span>◌ DSA</span><b id="readyDsa">—</b></div>
+<div><span>▣ Development</span><b id="readyDev">—</b></div>
+<div><span>◌ Aptitude</span><b id="readyApt">Needs Practice</b></div>
+<div><span>▤ Communication</span><b id="readyComm">Needs Practice</b></div>
+</div>
+</div>
+<div class="readiness-tip">💡 <span>You are on the right track! Focus on the areas marked for improvement to strengthen placement readiness.</span></div>
+</article>
+</div>
+<div class="dashboard-grid lower-widgets">
+<article class="template-card list-card strengths-card"><div class="colored-head green"><h3>🏆 Strengths</h3></div><div id="templateStrengths"></div></article>
+<article class="template-card list-card improve-card"><div class="colored-head red"><h3>▥ Areas to Improve</h3></div><div id="templateImprovements"></div></article>
+<article class="template-card list-card gaps-card"><div class="colored-head blue"><h3>🎯 Skill Gaps</h3></div><div id="templateGaps"></div></article>
+<article class="template-card quick-card"><div class="card-head"><h3>⚡ Quick Actions</h3></div>
+<button class="quick-primary" data-target="study">◎ Generate New Study Plan <b>›</b></button>
+<button data-target="finalReport">▣ View Latest Report <b>›</b></button>
+<button data-target="earlyWarning">▥ Check Progress Timeline <b>›</b></button>
+<button data-target="study">🎓 Explore Learning Resources <b>›</b></button>
+</article>
+</div>
+<div class="template-quote">“<span id="templateQuote">A little progress each day adds up to big results.</span>” <b>— Keep Learning, Keep Growing!</b></div>
+<!-- Hidden compatibility elements retained for existing report logic -->
+<div aria-hidden="true" class="template-compat">
+<div id="statusPill"></div><div id="tierBadge"><span id="tierNum"></span><strong id="tierLabel"></strong><small id="tierTitle"></small></div>
+<p id="tierBand"></p><p id="tierNarrative"></p><strong id="overallScore"></strong><span id="grade"></span>
+<svg><circle id="scoreRing"></circle></svg>
+</div>
+</section>
+
+<section class="kpi-grid">
+<article class="kpi">
+<span>Academic</span>
+<strong id="kpiAcademic">--</strong>
+<small>Assignments + assessments</small>
+<div class="mini-bar"><i id="barAcademic"></i></div>
+</article>
+<article class="kpi">
+<span>Interview</span>
+<strong id="kpiInterview">--</strong>
+<small>Panel score / 10</small>
+<div class="mini-bar"><i id="barInterview"></i></div>
+</article>
+<article class="kpi">
+<span>Attendance</span>
+<strong id="kpiAttendance">--</strong>
+<small>Eligibility signal</small>
+<div class="mini-bar"><i id="barAttendance"></i></div>
+</article>
+<article class="kpi">
+<span>Readiness</span>
+<strong id="kpiReadiness">--</strong>
+<small>Placement confidence</small>
+<div class="mini-bar"><i id="barReadiness"></i></div>
+</article>
+</section>
+<section class="panel gates-panel" id="gates">
+<div class="panel-head">
+<div>
+<span class="section-kicker">Placement cell</span>
+<h3>Eligibility gate checklist</h3>
+</div>
+<span class="chip" id="gatesSummary">—</span>
+</div>
+<p class="muted">Pass/fail gates used by most campus drives — derived from this student's validated record.</p>
+<div class="gate-list" id="gateList"></div>
+</section>
+<section class="grid-2">
+<article class="panel">
+<div class="panel-head">
+<div>
+<span class="section-kicker">Performance map</span>
+<h3>Dimension scores</h3>
+</div>
+<span class="chip">vs dept avg 72</span>
+</div>
+<div class="dimension-list" id="dimensions"></div>
+</article>
+<article class="panel">
+<div class="panel-head">
+<div>
+<span class="section-kicker">Executive brief</span>
+<h3>What the data says</h3>
+</div>
+</div>
+<div class="summary" id="summary"></div>
+</article>
+</section>
+<section class="panel charts-panel" id="insights">
+<div class="panel-head">
+<div>
+<span class="section-kicker">Data visualization</span>
+<h3>Charts from this student's record</h3>
+</div>
+<span class="chip" id="chartSource">Scores · interview · academics</span>
+</div>
+<p class="chart-intro muted" id="chartIntro">Every chart below is built from the validated report fields — not sample or decorative data.</p>
+<div class="charts-grid">
+<div class="chart-card">
+<h4>Dimension scores <small id="dimChartCaption">0–100 from KPIs</small></h4>
+<div class="chart-frame"><canvas aria-label="Dimension scores" id="dimChart"></canvas></div>
+</div>
+<div class="chart-card">
+<h4>Interview by topic <small id="qChartCaption">avg / 10 from panel</small></h4>
+<div class="chart-frame"><canvas aria-label="Interview topic averages" id="qChart"></canvas></div>
+</div>
+<div class="chart-card">
+<h4>Current vs target <small id="lagChartCaption">lagging areas</small></h4>
+<div class="chart-frame"><canvas aria-label="Current vs target scores" id="lagChart"></canvas></div>
+</div>
+<div class="chart-card">
+<h4>Score composition <small id="kpiChartCaption">pipeline weights × actuals</small></h4>
+<div class="chart-frame"><canvas aria-label="Weighted score composition" id="kpiChart"></canvas></div>
+</div>
+</div>
+<div class="chart-card full-width">
+<h4>Academic record <small id="acadChartCaption">assignments &amp; assessments %</small></h4>
+<div class="chart-frame tall"><canvas aria-label="Academic item scores" id="acadChart"></canvas></div>
+</div>
+<div class="grid-2 lag-weak-grid">
+<div>
+<h4 class="subhead">Where they are lagging</h4>
+<div class="lag-list" id="laggingAreas"></div>
+</div>
+<div>
+<h4 class="subhead">Weakness analysis</h4>
+<p class="narrative" id="weaknessSummary"></p>
+<p class="pattern-line"><span>Pattern</span> <b id="weaknessPattern">--</b></p>
+<p class="pattern-line"><span>Primary</span> <b id="primaryWeakness">--</b></p>
+<div class="weak-list" id="weaknessItems"></div>
+</div>
+</div>
+<div>
+<h4 class="subhead">Risk flags</h4>
+<ul class="clean-list risk-list" id="riskFlags"></ul>
+</div>
+</section>
+<section class="panel warn-panel" id="earlyWarning">
+<div class="panel-head">
+<div>
+<span class="section-kicker">Early warning system</span>
+<h3>Detect the trajectory before the outcome</h3>
+</div>
+<span class="chip" id="ewSeverity">—</span>
+</div>
+<div class="ew-banner" data-severity="clear" id="ewBanner">
+<div class="ew-title" id="ewTitle">—</div>
+<p class="narrative" id="ewTrajectory"></p>
+</div>
+<div class="ew-signals" id="ewSignals"></div>
+<div class="ew-actions grid-2">
+<div>
+<h4 class="subhead">Predicted issue</h4>
+<p class="ew-issue" id="ewIssue">—</p>
+</div>
+<div>
+<h4 class="subhead">Recommended intervention</h4>
+<p class="narrative" id="ewIntervention">—</p>
+</div>
+</div>
+</section>
+<section class="panel skill-panel" id="skillGraph">
+<div class="panel-head">
+<div>
+<span class="section-kicker">Skill graph</span>
+<h3>Relationships, not just percentages</h3>
+</div>
+<span class="chip" id="sgRoot">—</span>
+</div>
+<p class="sg-insight" id="sgInsight"></p>
+<div class="sg-map-wrap">
+<div aria-label="Skill dependency map" class="sg-map" id="sgMap" role="img"></div>
+</div>
+<div class="sg-legend">
+<span><i class="lg-healthy"></i> Healthy</span>
+<span><i class="lg-watch"></i> Watch</span>
+<span><i class="lg-blocking"></i> Blocking</span>
+<span><i class="lg-fragile"></i> Fragile link</span>
+</div>
+<div class="sg-nodes" id="sgNodes"></div>
+<p class="muted" id="sgBottleneck"></p>
+<pre aria-hidden="true" class="sg-tree fr-only-print" hidden="" id="sgTree"></pre>
+</section>
+<section class="grid-2" id="academics">
+<article class="panel">
+<div class="panel-head">
+<div>
+<span class="section-kicker">Academics</span>
+<h3>Academic snapshot</h3>
+</div>
+<span class="metric-badge" id="cgpa">CGPA --</span>
+</div>
+<div class="narrative" id="academicNarrative"></div>
+<div class="item-table" id="academicItems"></div>
+</article>
+<article class="panel">
+<div class="panel-head">
+<div>
+<span class="section-kicker">Attendance</span>
+<h3>Eligibility</h3>
+</div>
+<span class="chip" id="attendanceStatus">--</span>
+</div>
+<div class="attendance-visual">
+<div class="donut"><div><strong id="attendanceBig">--</strong><span>attendance</span></div></div>
+<div class="facts" id="attendanceFacts"></div>
+</div>
+<p class="narrative" id="attendanceNarrative"></p>
+</article>
+</section>
+<section class="panel" id="interview">
+<div class="panel-head">
+<div>
+<span class="section-kicker">Interview</span>
+<h3>Panel deep dive</h3>
+</div>
+<span class="chip" id="interviewContext">--</span>
+</div>
+<div class="interview-top">
+<div class="interview-score">
+<strong id="interviewBig">--</strong>
+<span>/10</span>
+<small>overall panel score</small>
+</div>
+<div class="interview-copy">
+<p id="interviewNarrative"></p>
+<div class="topic-row">
+<span>Strongest <b id="strongTopic">--</b></span>
+<span>Needs work <b id="weakTopic">--</b></span>
+</div>
+</div>
+</div>
+<div class="grid-2 interview-extra">
+<div class="chart-card">
+<h4>Interviewer trait profile <small>from panel observations</small></h4>
+<div class="chart-frame"><canvas aria-label="Interviewer trait ratings" id="traitChart"></canvas></div>
+</div>
+<div>
+<h4 class="subhead">Panel observations</h4>
+<div class="trait-list" id="traitList"></div>
+</div>
+</div>
+<h4 class="subhead">Full transcript</h4>
+<div class="transcript" id="transcript"></div>
+<h4 class="subhead">Coaching notes</h4>
+<div class="question-grid" id="questions"></div>
+</section>
+<section class="panel sim-panel" id="simulator">
+<div class="panel-head">
+<div>
+<span class="section-kicker">What-if simulator</span>
+<h3>Model readiness if levers move</h3>
+</div>
+<span class="chip">Live · same formula as report</span>
+</div>
+<p class="muted">Drag sliders to simulate improvement. Current vs simulated placement readiness update live — largest driver is named automatically.</p>
+<div class="sim-grid">
+<div class="sim-sliders">
+<label>Attendance % <output id="simAttOut">—</output>
+<input id="simAttend" max="100" min="0" step="0.5" type="range"/>
+</label>
+<label>Interview / 10 <output id="simIvOut">—</output>
+<input id="simInterview" max="10" min="0" step="0.1" type="range"/>
+</label>
+<label>Assignments % <output id="simAsgOut">—</output>
+<input id="simAssign" max="100" min="0" step="1" type="range"/>
+</label>
+<label>DSA / 10 <output id="simDsaOut">—</output>
+<input id="simDsa" max="10" min="0" step="0.1" type="range"/>
+</label>
+<label>Communication / 10 <output id="simComOut">—</output>
+<input id="simComms" max="10" min="0" step="0.1" type="range"/>
+</label>
+<div class="sim-btn-row">
+<button class="ghost" id="simReset">Reset to current</button>
+<button class="ghost" id="simRecommend">Apply recommended</button>
+</div>
+</div>
+<div class="sim-result">
+<div class="sim-compare">
+<div class="sim-col current">
+<em>Current</em>
+<strong id="simCurrentReady">—</strong>
+<span>Placement readiness</span>
+</div>
+<div class="sim-col simulated">
+<em>Simulated</em>
+<strong id="simComposite">—</strong>
+<span>Placement readiness</span>
+</div>
+</div>
+<div class="sim-meta">
+<div><em>Delta</em><b id="simDelta">—</b></div>
+<div><em>Largest driver</em><b id="simDriver">—</b></div>
+<div><em>Status</em><b id="simStatus">—</b></div>
+<div><em>Eligible?</em><b id="simEligible">—</b></div>
+</div>
+<p class="narrative" id="simNote"></p>
+</div>
+</div>
+</section>
+<section class="panel outbox-panel" id="outbox">
+<div class="panel-head">
+<div>
+<span class="section-kicker">Out-of-the-box lab</span>
+<h3>See the student the way a recruiter would</h3>
+</div>
+<button class="ghost" id="speakRec">Speak counselor note</button>
+</div>
+<div class="focus-spotlight" id="focusSpotlight">
+<span class="section-kicker">This week · one thing only</span>
+<h3 id="focusTitle">—</h3>
+<p class="narrative" id="focusBody"></p>
+</div>
+<div class="grid-2 outbox-top">
+<article class="hire-dial-card">
+<h4>Recruiter decision dial</h4>
+<p class="muted">Live “would I advance this candidate?” from eligibility + composite + interview.</p>
+<div class="hire-dial">
+<svg aria-label="Hire dial" viewbox="0 0 200 120">
+<path class="dial-track" d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke-width="14"></path>
+<path class="dial-arc" d="M20 100 A80 80 0 0 1 20 100" fill="none" id="dialArc" stroke-width="14"></path>
+<line class="dial-needle" id="dialNeedle" x1="100" x2="100" y1="100" y2="28"></line>
+<circle class="dial-hub" cx="100" cy="100" r="6"></circle>
+</svg>
+<div class="hire-verdict">
+<strong id="hireVerdict">—</strong>
+<span id="hireScore">—</span>
+</div>
+</div>
+<p class="narrative" id="hireReason"></p>
+</article>
+<article class="cost-card">
+<h4>Cost of the gap</h4>
+<p class="muted">Rough first-year CTC opportunity left on the table if weak topics stay unfixed.</p>
+<div class="cost-big"><span>₹</span><strong id="costAmount">—</strong></div>
+<p class="narrative" id="costNote"></p>
+<div class="cost-break" id="costBreakdown"></div>
+</article>
+</div>
+<div class="panel-head tight">
+<div>
+<span class="section-kicker">Company match</span>
+<h3>How this profile lands at real campus brands</h3>
+</div>
+</div>
+<div class="match-grid" id="companyMatches"></div>
+<div class="grid-2 letters-grid">
+<article class="letter reject">
+<div class="letter-head">
+<span>If nothing changes</span>
+<b>Rejection preview</b>
+</div>
+<div class="letter-body" id="rejectLetter"></div>
+</article>
+<article class="letter offer">
+<div class="letter-head">
+<span>If the 90-day plan lands</span>
+<b>Offer preview</b>
+</div>
+<div class="letter-body" id="offerLetter"></div>
+</article>
+</div>
+<div class="grid-2">
+<article class="chart-card">
+<h4>90-day projection <small>current vs study-plan target</small></h4>
+<div class="chart-frame"><canvas aria-label="90 day projection" id="projChart"></canvas></div>
+</article>
+<article class="drill-card">
+<h4>Weak-topic drill</h4>
+<p class="muted">60-second flash practice on the lowest interview topic.</p>
+<div class="drill-timer"><strong id="drillClock">60</strong><span>seconds</span></div>
+<p class="drill-topic">Topic · <b id="drillTopic">—</b></p>
+<p class="drill-q" id="drillQuestion">Load a report to start.</p>
+<div class="drill-actions">
+<button class="primary" id="drillStart">Start drill</button>
+<button class="ghost" id="drillNext">Next question</button>
+</div>
+<p class="drill-hint" id="drillHint"></p>
+</article>
+</div>
+<article class="battle-card" id="battleCard">
+<div class="battle-top">
+<div>
+<span class="section-kicker">Interview battle card</span>
+<h3 id="battleName">—</h3>
+<p id="battleSub">Lead with this. Don’t open with the weakness.</p>
+</div>
+<button class="ghost" id="printBattle">Print card</button>
+</div>
+<div class="battle-grid">
+<div>
+<span>Open with</span>
+<strong id="battleOpen">—</strong>
+</div>
+<div>
+<span>Never lead with</span>
+<strong id="battleAvoid">—</strong>
+</div>
+<div>
+<span>Proof line</span>
+<p id="battleProof">—</p>
+</div>
+<div>
+<span>Close the loop</span>
+<p id="battleClose">—</p>
+</div>
+</div>
+<div class="tag-wrap" id="battleTags"></div>
+</article>
+<div class="constellation-wrap">
+<h4 class="subhead">Skill constellation</h4>
+<p class="muted">Stronger nodes glow larger. Weak nodes shrink — your map of leverage.</p>
+<div aria-hidden="true" class="constellation" id="constellation"></div>
+</div>
+</section>
+<section class="grid-2" id="readiness">
+<article class="panel readiness-panel">
+<div class="panel-head">
+<div>
+<span class="section-kicker">Placement</span>
+<h3>Readiness</h3>
+</div>
+<span class="metric-badge" id="confidence">--% confidence</span>
+</div>
+<div class="readiness-status" id="readinessStatus">--</div>
+<p class="narrative" id="readinessNarrative"></p>
+<div class="split">
+<div>
+<span>Target roles</span>
+<div class="tag-wrap" id="roles"></div>
+</div>
+<div>
+<span>Company fit</span>
+<div class="tag-wrap" id="companies"></div>
+</div>
+</div>
+<div>
+<span>Blockers</span>
+<ul class="clean-list" id="blockers"></ul>
+</div>
+</article>
+<article class="panel">
+<div class="panel-head">
+<div>
+<span class="section-kicker">Action plan</span>
+<h3>Next 90 days</h3>
+</div>
+</div>
+<div class="action-list" id="actionPlan"></div>
+</article>
+</section>
+<section class="panel study-panel" id="study">
+<div class="panel-head">
+<div>
+<span class="section-kicker">Real-world study plan</span>
+<h3 id="studyTitle">90-day schedule</h3>
+</div>
+<span class="metric-badge" id="studyHours">-- hrs / week</span>
+</div>
+<p class="narrative" id="studyOverview"></p>
+<div class="study-meta-row">
+<div>
+<span>Duration</span>
+<strong id="studyDuration">--</strong>
+</div>
+<div>
+<span>Daily habits</span>
+<ul class="clean-list" id="studyHabits"></ul>
+</div>
+<div>
+<span>Tools &amp; platforms</span>
+<div class="tag-wrap" id="studyTools"></div>
+</div>
+</div>
+<div class="study-phases" id="studyPhases"></div>
+</section>
+<section class="grid-2">
+<article class="panel">
+<div class="panel-head">
+<div>
+<span class="section-kicker">Evidence</span>
+<h3>Strengths &amp; growth</h3>
+</div>
+</div>
+<div class="evidence-columns">
+<div>
+<h4>Strengths</h4>
+<div id="strengths"></div>
+</div>
+<div>
+<h4>Growth areas</h4>
+<div id="growth"></div>
+</div>
+</div>
+</article>
+<article class="panel">
+<div class="panel-head">
+<div>
+<span class="section-kicker">Counselor</span>
+<h3>Recommendation</h3>
+</div>
+</div>
+<p class="recommendation" id="recommendation"></p>
+<div class="closing" id="closing"></div>
+</article>
+</section>
+<section class="final-report" id="finalReport">
+<div class="fr-toolbar no-print">
+<div>
+<span class="section-kicker">Output deliverable</span>
+<h3>Final placement report</h3>
+<p class="muted">Board-ready document generated from the strict JSON contract. Print or export this — not the whole dashboard.</p>
+</div>
+<div class="fr-toolbar-actions">
+<button class="ghost" id="printFinal">Print this report</button>
+<button class="primary" id="exportMarkdown2">Download Markdown</button>
+</div>
+</div>
+<article class="fr-doc" id="frDoc">
+<header class="fr-cover">
+<div class="fr-brand">Meridian · Student Performance</div>
+<p class="fr-kicker">Official placement output report</p>
+<h2 id="frStudent">—</h2>
+<p class="fr-headline" id="frHeadline">—</p>
+<div class="fr-cover-meta" id="frCoverMeta"></div>
+</header>
+<section class="fr-decision" id="frDecision">
+<div class="fr-decision-code" id="frDecisionCode">—</div>
+<div>
+<h3 id="frDecisionLabel">—</h3>
+<p class="narrative" id="frDecisionWhy"></p>
+<div class="fr-decision-meta">
+<span>Priority fix <b id="frPriority">—</b></span>
+<span>Next review <b id="frReview">—</b></span>
+<span>Signed <b id="frSigned">—</b></span>
+</div>
+</div>
+</section>
+<section class="fr-block">
+<h3>1. One-page scorecard</h3>
+<table class="fr-table" id="frScorecard">
+<thead><tr><th>Metric</th><th>Value</th><th>Benchmark</th><th>Result</th></tr></thead>
+<tbody></tbody>
+</table>
+</section>
+<section class="fr-block">
+<h3>2. Executive summary</h3>
+<div class="fr-prose" id="frExec"></div>
+</section>
+<section class="fr-block">
+<h3>3. Dimension scores</h3>
+<div class="fr-dims" id="frDims"></div>
+</section>
+<section class="fr-block">
+<h3>4. Weakness &amp; lagging areas</h3>
+<p class="narrative" id="frWeakSummary"></p>
+<div class="fr-two">
+<div>
+<h4>Weaknesses</h4>
+<ul class="fr-list" id="frWeakList"></ul>
+</div>
+<div>
+<h4>Lagging gaps</h4>
+<ul class="fr-list" id="frLagList"></ul>
+</div>
+</div>
+</section>
+<section class="fr-block">
+<h3>5. Early warning system</h3>
+<div class="fr-ew" id="frEwBox">
+<div class="fr-ew-title" id="frEwTitle">—</div>
+<p class="narrative" id="frEwSummary"></p>
+<ul class="fr-list" id="frEwSignals"></ul>
+<p><b>Predicted issue:</b> <span id="frEwIssue">—</span></p>
+<p><b>Recommended intervention:</b> <span id="frEwIntervention">—</span></p>
+</div>
+</section>
+<section class="fr-block">
+<h3>6. Skill graph</h3>
+<p class="narrative" id="frSgInsight"></p>
+<pre class="fr-sg-tree" id="frSgTree"></pre>
+<ul class="fr-list" id="frSgNodes"></ul>
+<p class="narrative" id="frSgBottleneck"></p>
+</section>
+<section class="fr-block">
+<h3>7. What-if scenario</h3>
+<div class="fr-sim-compare" id="frSimCompare">
+<div><em>Current readiness</em><strong id="frSimCurrent">—</strong></div>
+<div><em>Simulated readiness</em><strong id="frSimSim">—</strong></div>
+<div><em>Largest drivers</em><strong id="frSimDrivers">—</strong></div>
+</div>
+<p class="narrative" id="frSimNarrative"></p>
+<table class="fr-table" id="frSimLevers">
+<thead><tr><th>Lever</th><th>Current</th><th>Recommended</th></tr></thead>
+<tbody></tbody>
+</table>
+<p class="muted" id="frSimFormula"></p>
+</section>
+<section class="fr-block">
+<h3>8. Placement readiness</h3>
+<p class="narrative" id="frPlace"></p>
+<p><b>Target roles:</b> <span id="frRoles">—</span></p>
+<p><b>Blockers:</b></p>
+<ul class="fr-list" id="frBlockers"></ul>
+</section>
+<section class="fr-block">
+<h3>9. Action plan &amp; study plan</h3>
+<ol class="fr-list numbered" id="frActions"></ol>
+<p class="narrative" id="frStudyOverview"></p>
+<div class="fr-phases" id="frPhases"></div>
+</section>
+<section class="fr-block">
+<h3>10. Counselor recommendation</h3>
+<p class="fr-counsel" id="frCounsel"></p>
+<p class="fr-close" id="frClose"></p>
+</section>
+<section class="fr-block">
+<h3>11. Methodology</h3>
+<p class="narrative" id="frMethod"></p>
+<p class="fr-foot" id="frFoot">—</p>
+</section>
+<footer class="fr-signoff">
+<div>
+<span>Placement cell acknowledgment</span>
+<div class="fr-sign-line"></div>
+</div>
+<div>
+<span>Student acknowledgment</span>
+<div class="fr-sign-line"></div>
+</div>
+</footer>
+</article>
+</section>
+<section class="panel lab-panel" id="pipeline">
+<div class="panel-head">
+<div>
+<span class="section-kicker">Data lab</span>
+<h3>Run pipeline on new student data</h3>
+</div>
+<span class="chip">Same backend contract</span>
+</div>
+<p class="muted">Paste the five JSON source objects the backend expects. The local runner writes a temp directory and executes the unchanged Python pipeline.</p>
+<ol aria-label="Pipeline stages" class="pipeline-stages" id="pipelineStages">
+<li data-stage="load">Load</li>
+<li data-stage="validate">Validate</li>
+<li data-stage="kpi">KPI</li>
+<li data-stage="report">Report</li>
+</ol>
+<div class="data-actions">
+<button class="primary" id="runDemo2">Load Deepthi (Tier 1)</button>
+<button class="ghost" id="runAtRisk">Load Rahul (at risk)</button>
+<button class="ghost" id="downloadTemplate">Download template</button>
+<label class="upload-btn">Import bundle<input accept=".json" hidden="" id="bundleFile" type="file"/></label>
+</div>
+<details class="editor">
+<summary>Open source-data editor</summary>
+<div class="source-grid">
+<label>student.json<textarea id="srcStudent"></textarea></label>
+<label>interview.json<textarea id="srcInterview"></textarea></label>
+<label>assignment.json<textarea id="srcAssignment"></textarea></label>
+<label>assessment.json<textarea id="srcAssessment"></textarea></label>
+<label>attendance.json<textarea id="srcAttendance"></textarea></label>
+</div>
+<button class="primary" id="runCustom">Run pipeline on these sources</button>
+</details>
+<div class="run-log">
+<span class="live-dot"></span>
+<span id="runStatus">Ready. Reports come from the terminal pipeline.</span>
+</div>
+<details class="raw-report">
+<summary>View JSON report</summary>
+<pre id="rawJson"></pre>
+</details>
+</section>
+<footer>Meridian · student performance · pipeline unchanged</footer>
+</main>
+</div>
+<script src="/scene3d.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>

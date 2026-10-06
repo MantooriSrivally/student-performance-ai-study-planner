@@ -1,0 +1,138 @@
+{
+  "student.json": {
+    "student_id": "24011cseai0241",
+    "name": "Rahul Mehta",
+    "email": "24011cseai0241@aiml.suh.edu.in",
+    "phone_number": "9123456780",
+    "department": "AIML",
+    "year": 3,
+    "semester": 5,
+    "cgpa": 6.4
+  },
+  "interview.json": {
+    "student_id": "24011cseai0241",
+    "student_name": "Rahul Mehta",
+    "interview_date": "2026-07-02",
+    "company": "Infosys",
+    "job_role": "Systems Engineer Trainee",
+    "overall_score": 5.2,
+    "questions": [
+      {
+        "question": "Tell me about yourself.",
+        "student_answer": "I am Rahul, third year AIML. I know some Python and did a few college projects.",
+        "score": 5,
+        "feedback": "Vague; needs a structured intro with projects and impact."
+      },
+      {
+        "question": "Explain Object-Oriented Programming.",
+        "student_answer": "OOP means using classes. Inheritance is when one class uses another.",
+        "score": 4,
+        "feedback": "Incomplete — missed encapsulation, polymorphism, abstraction."
+      },
+      {
+        "question": "Difference between List and Tuple?",
+        "student_answer": "List can change, tuple cannot.",
+        "score": 6,
+        "feedback": "Basic but acceptable. Add memory / hashability."
+      },
+      {
+        "question": "What is FastAPI?",
+        "student_answer": "I have not used FastAPI much. I used Flask once in a lab.",
+        "score": 3,
+        "feedback": "No FastAPI depth; cannot discuss routes or docs."
+      },
+      {
+        "question": "Explain SQL JOINs.",
+        "student_answer": "JOIN combines tables. I mostly know SELECT and WHERE.",
+        "score": 4,
+        "feedback": "Critical gap for backend roles."
+      },
+      {
+        "question": "Difference between GET and POST?",
+        "student_answer": "GET is for reading, POST is for sending data.",
+        "score": 6,
+        "feedback": "Correct at surface level."
+      },
+      {
+        "question": "What is Machine Learning?",
+        "student_answer": "ML is AI that learns from data to make predictions.",
+        "score": 6,
+        "feedback": "Definition only — no pipeline or example."
+      },
+      {
+        "question": "Reverse a string in Python.",
+        "student_answer": "I would use a for loop and build a new string.",
+        "score": 5,
+        "feedback": "Works but not optimal; missed slicing."
+      }
+    ],
+    "interviewer_observation": {
+      "communication": "Average",
+      "confidence": "Needs Improvement",
+      "technical_knowledge": "Average",
+      "coding_skills": "Needs Improvement",
+      "problem_solving": "Average"
+    },
+    "strengths": [
+      "Willing to attempt answers",
+      "Basic Python awareness"
+    ],
+    "weaknesses": [
+      "Weak SQL and FastAPI",
+      "Shallow OOP explanations",
+      "Low confidence under pressure",
+      "Needs structured STAR answers"
+    ],
+    "overall_feedback": "Rahul is not placement-ready for this cycle. Fundamentals are incomplete and attendance eligibility is at risk. Enrol in a Tier 3 foundation plan before the next drive."
+  },
+  "assignment.json": {
+    "student_id": "24011cseai0241",
+    "assignments": [
+      {
+        "assignment_id": "A201",
+        "title": "Python Mini Project",
+        "subject": "Python",
+        "marks": 62,
+        "max_marks": 100,
+        "submission_status": "Late",
+        "feedback": "Incomplete modules; late submission."
+      },
+      {
+        "assignment_id": "A202",
+        "title": "SQL Lab Sheet",
+        "subject": "Databases",
+        "marks": 55,
+        "max_marks": 100,
+        "submission_status": "Late",
+        "feedback": "Only basic SELECT queries attempted."
+      }
+    ]
+  },
+  "assessment.json": {
+    "student_id": "24011cseai0241",
+    "assessments": [
+      {
+        "assessment_id": "AS201",
+        "subject": "Python",
+        "score": 58,
+        "grade": "C"
+      },
+      {
+        "assessment_id": "AS202",
+        "subject": "Databases",
+        "score": 52,
+        "grade": "D"
+      }
+    ]
+  },
+  "attendance.json": {
+    "student_id": "24011cseai0241",
+    "month": "June",
+    "working_days": 22,
+    "present_days": 15,
+    "absent_days": 6,
+    "leave_days": 1,
+    "attendance_percentage": 68.18,
+    "status": "Not Eligible"
+  }
+}

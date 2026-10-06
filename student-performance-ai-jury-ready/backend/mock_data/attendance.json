@@ -1,0 +1,10 @@
+{
+  "student_id": "24011cseai0133",
+  "month": "June",
+  "working_days": 22,
+  "present_days": 21,
+  "absent_days": 1,
+  "leave_days": 0,
+  "attendance_percentage": 95.45,
+  "status": "Eligible"
+}
